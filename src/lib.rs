@@ -45,7 +45,7 @@
 //! ```
 //!
 //! ```ignore
-//! use scale_info::TypeInfo;
+//! use eosio_scale_info::TypeInfo;
 //!
 //! #[derive(TypeInfo)]
 //! struct MyStruct {
@@ -134,7 +134,7 @@
 //!     marker: core::marker::PhantomData<T>,
 //! }
 //!
-//! fn assert_type_info<T: scale_info::TypeInfo + 'static>() {}
+//! fn assert_type_info<T: eosio_scale_info::TypeInfo + 'static>() {}
 //!
 //! fn main() {
 //!     // without the `skip_type_params` attribute this will fail.
@@ -263,11 +263,11 @@
 /// # Example
 ///
 /// ```
-/// # use scale_info::tuple_meta_type;
+/// # use eosio_scale_info::tuple_meta_type;
 /// assert_eq!(
 ///     tuple_meta_type!(i32, [u8; 32], String),
 ///     {
-///         use scale_info::MetaType;
+///         use eosio_scale_info::MetaType;
 ///         let mut vec = Vec::new();
 ///         vec.push(MetaType::new::<i32>());
 ///         vec.push(MetaType::new::<[u8; 32]>());
@@ -294,7 +294,7 @@ macro_rules! tuple_meta_type {
 /// # Example
 ///
 /// ```
-/// # use scale_info::{named_type_params, MetaType, TypeParameter};
+/// # use eosio_scale_info::{named_type_params, MetaType, TypeParameter};
 /// assert_eq!(
 ///     named_type_params![(T, u8), (U, u32)],
 ///     vec! [
@@ -356,7 +356,7 @@ pub use self::{
 };
 
 #[cfg(feature = "derive")]
-pub use scale_info_derive::TypeInfo;
+pub use eosio_scale_info_derive::TypeInfo;
 
 /// Implementors return their meta type information.
 pub trait TypeInfo {

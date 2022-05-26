@@ -22,7 +22,7 @@
 //!
 //! ## Generic struct
 //! ```
-//! # use scale_info::{build::Fields, type_params, MetaType, Path, Type, TypeInfo};
+//! # use eosio_scale_info::{build::Fields, type_params, MetaType, Path, Type, TypeInfo};
 //! struct Foo<T> {
 //!     bar: T,
 //!     data: u64,
@@ -47,7 +47,7 @@
 //! ```
 //! ## Tuple struct
 //! ```
-//! # use scale_info::{build::Fields, MetaType, Path, Type, TypeInfo};
+//! # use eosio_scale_info::{build::Fields, MetaType, Path, Type, TypeInfo};
 //! struct Foo(u32, bool);
 //!
 //! impl TypeInfo for Foo {
@@ -65,7 +65,7 @@
 //! ```
 //! ## Enum with fields
 //! ```
-//! # use scale_info::{build::{Fields, Variants}, type_params, MetaType, Path, Type, TypeInfo, Variant};
+//! # use eosio_scale_info::{build::{Fields, Variants}, type_params, MetaType, Path, Type, TypeInfo, Variant};
 //! enum Foo<T>{
 //!     A(T),
 //!     B { f: u32 },
@@ -99,7 +99,7 @@
 //! ```
 //! ## Enum without fields, aka C-style enums.
 //! ```
-//! # use scale_info::{build::{Fields, Variants}, MetaType, Path, Type, TypeInfo, Variant};
+//! # use eosio_scale_info::{build::{Fields, Variants}, MetaType, Path, Type, TypeInfo, Variant};
 //! enum Foo {
 //!     A,
 //!     B,

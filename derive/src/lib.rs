@@ -313,7 +313,7 @@ fn crate_name_path(name: &str) -> Result<syn::Path> {
 fn crate_path(crate_path_attr: Option<&CratePathAttr>) -> Result<syn::Path> {
     crate_path_attr
         .map(|path_attr| Ok(path_attr.path().clone()))
-        .unwrap_or_else(|| crate_name_path("scale-info"))
+        .unwrap_or_else(|| crate_name_path("eosio-scale-info"))
 }
 
 fn clean_type_string(input: &str) -> String {

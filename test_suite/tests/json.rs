@@ -17,7 +17,7 @@
 #![allow(dead_code)]
 
 use info::{self as scale_info,};
-use scale_info::prelude::{
+use eosio_scale_info::prelude::{
     boxed::Box,
     collections::VecDeque,
     marker::PhantomData,
@@ -35,7 +35,7 @@ use pretty_assertions::{
     assert_ne,
 };
 use scale::Encode;
-use scale_info::{
+use eosio_scale_info::{
     form::PortableForm,
     meta_type,
     IntoPortable as _,
@@ -243,7 +243,7 @@ fn test_struct_with_some_fields_marked_as_compact() {
         #[codec(compact)]
         c: u64,
     }
-    use scale_info::{
+    use eosio_scale_info::{
         build::Fields,
         Path,
         Type,
@@ -279,7 +279,7 @@ fn test_struct_with_some_fields_marked_as_compact() {
 
 #[test]
 fn test_struct_with_phantom_field_erased() {
-    use scale_info::prelude::marker::PhantomData;
+    use eosio_scale_info::prelude::marker::PhantomData;
     #[derive(TypeInfo)]
     struct Struct<T> {
         a: i32,

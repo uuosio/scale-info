@@ -1,5 +1,5 @@
 [package]
-name = "scale-info"
+name = "eosio-scale-info"
 version = "2.1.2"
 authors = ["Parity Technologies <admin@parity.io>"]
 edition = "2021"
@@ -7,8 +7,8 @@ rust-version = "1.56.1"
 
 license = "Apache-2.0"
 readme = "README.md"
-repository = "https://github.com/paritytech/scale-info"
-documentation = "https://docs.rs/scale-info"
+repository = "https://github.com/paritytech/eosio-scale-info"
+documentation = "https://docs.rs/eosio-scale-info"
 homepage = "https://www.parity.io/"
 description = "Info about SCALE encodable Rust types"
 categories = ["no-std", "encoding"]
@@ -17,7 +17,7 @@ include = ["Cargo.toml", "src/**/*.rs", "README.md", "LICENSE"]
 [dependencies]
 bitvec = { version = "1", default-features = false, features = ["alloc"], optional = true }
 cfg-if = "1.0"
-scale-info-derive = { version = "2.1.2", path = "derive", default-features = false, optional = true }
+eosio-scale-info-derive = { version = "2.1.2", path = "derive", default-features = false, optional = true }
 serde = { version = "1", default-features = false, optional = true, features = ["derive", "alloc"] }
 derive_more = { version = "0.99.1", default-features = false, features = ["from"] }
 scale = { package = "parity-scale-codec", version = "3", default-features = false, features = ["derive"] }
@@ -29,11 +29,11 @@ std = [
     "scale/std",
 ]
 derive = [
-    "scale-info-derive"
+    "eosio-scale-info-derive"
 ]
 # Include rustdoc strings in the type metadata.
 docs = [
-    "scale-info-derive/docs"
+    "eosio-scale-info-derive/docs"
 ]
 # enables decoding and deserialization of portable scale-info type metadata
 decode = [

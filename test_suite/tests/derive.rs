@@ -22,7 +22,7 @@ use core::ops::{
 use info::{self as scale_info,};
 use pretty_assertions::assert_eq;
 use scale::Encode;
-use scale_info::{
+use eosio_scale_info::{
     build::*,
     named_type_params,
     prelude::{

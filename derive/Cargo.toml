@@ -1,5 +1,5 @@
 [package]
-name = "scale-info-derive"
+name = "eosio-scale-info-derive"
 version = "2.1.2"
 authors = [
     "Parity Technologies <admin@parity.io>",
@@ -9,8 +9,8 @@ edition = "2021"
 rust-version = "1.56.1"
 
 license = "Apache-2.0"
-repository = "https://github.com/paritytech/scale-info"
-documentation = "https://docs.rs/scale-info"
+repository = "https://github.com/paritytech/eosio-scale-info"
+documentation = "https://docs.rs/eosio-scale-info"
 homepage = "https://www.parity.io/"
 description = "Derive type info for SCALE encodable types"
 categories = ["no-std", "encoding"]

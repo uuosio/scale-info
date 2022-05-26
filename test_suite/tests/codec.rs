@@ -25,7 +25,7 @@ use scale::{
     Decode,
     Encode,
 };
-use scale_info::{
+use eosio_scale_info::{
     form::PortableForm,
     prelude::{
         num::NonZeroU32,

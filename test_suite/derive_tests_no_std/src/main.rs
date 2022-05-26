@@ -15,7 +15,7 @@
 
 #![no_std]
 
-use scale_info::TypeInfo;
+use eosio_scale_info::TypeInfo;
 
 #[allow(unused)]
 #[derive(TypeInfo)]

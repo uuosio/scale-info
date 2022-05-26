@@ -248,7 +248,7 @@ fn struct_with_generics() {
     // With "`Self` typed" fields
     type SelfTyped = MyStruct<Box<MyStruct<bool>>>;
     let expected_type = Type::builder()
-        .path(Path::new("MyStruct", "scale_info::tests"))
+        .path(Path::new("MyStruct", "eosio_scale_info::tests"))
         .type_params(named_type_params![(T, Box<MyStruct<bool>>)])
         .composite(
             Fields::named()

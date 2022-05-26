@@ -1,5 +1,5 @@
 // scale_info only exists as "::info", so this test
-// helps ensure that we never point to `scale_info::*`
+// helps ensure that we never point to `eosio_scale_info::*`
 // and only use our renamed crate path.
 
 use info::TypeInfo;

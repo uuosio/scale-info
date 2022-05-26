@@ -1,5 +1,5 @@
 use info::{self as scale_info};
-use scale_info::TypeInfo;
+use eosio_scale_info::TypeInfo;
 
 #[allow(dead_code, non_camel_case_types)]
 mod r#mod {
