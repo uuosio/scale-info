@@ -44,8 +44,8 @@ bit-vec = [
     "bitvec"
 ]
 
-[workspace]
-members = [
-    "derive",
-    "test_suite",
-]
+# [workspace]
+# members = [
+#     "derive",
+#     "test_suite",
+# ]
