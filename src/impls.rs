@@ -83,6 +83,8 @@ impl_metadata_for_primitives!(
     i32 => TypeDefPrimitive::I32,
     i64 => TypeDefPrimitive::I64,
     i128 => TypeDefPrimitive::I128,
+    f32 => TypeDefPrimitive::F32,
+    f64 => TypeDefPrimitive::F64,
 );
 
 impl<T: TypeInfo + 'static, const N: usize> TypeInfo for [T; N] {

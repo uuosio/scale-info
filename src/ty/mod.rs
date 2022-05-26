@@ -343,6 +343,12 @@ pub enum TypeDefPrimitive {
     /// 256 bits signed int (no rust equivalent)
     #[codec(index = 14)]
     I256,
+    /// `f32`
+    #[codec(index = 15)]
+    F32,
+    /// 256 bits signed int (no rust equivalent)
+    #[codec(index = 16)]
+    F64,
 }
 
 /// An array type.
