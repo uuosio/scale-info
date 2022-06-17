@@ -21,6 +21,7 @@ eosio-scale-info-derive = { version = "2.1.2", path = "derive", default-features
 serde = { version = "1", default-features = false, optional = true, features = ["derive", "alloc"] }
 derive_more = { version = "0.99.1", default-features = false, features = ["from"] }
 scale = { package = "parity-scale-codec", version = "3", default-features = false, features = ["derive"] }
+lazy_static = "1.4.0"
 
 [features]
 default = ["std"]

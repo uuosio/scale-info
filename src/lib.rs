@@ -391,3 +391,33 @@ where
 {
     MetaType::new::<T>()
 }
+
+use lazy_static::lazy_static;
+use std::collections::HashMap;
+use std::sync::Mutex;
+
+#[cfg(feature = "std")]
+lazy_static! {
+    static ref HASHMAP_MUTEX: Mutex<HashMap<String, Type>> = Mutex::new(HashMap::new());
+}
+
+///
+pub fn add_scale_type(ty: Type) {
+    let name = ty.path().segments().to_vec().join("::");
+    if  let TypeDef::Primitive(_) = ty.type_def() {
+        return;
+    }
+    HASHMAP_MUTEX.lock().unwrap().insert(name, ty);
+}
+
+///
+pub fn get_scale_type(name: String) -> Option<Type> {
+    HASHMAP_MUTEX.lock().unwrap().get(&name).map(|ty|{
+        ty.clone()
+    })
+}
+
+///
+pub fn get_scale_type_map() -> &'static Mutex<HashMap<String, Type>>  {
+    return &HASHMAP_MUTEX;
+}

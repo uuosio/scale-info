@@ -114,13 +114,23 @@ impl TypeInfoImpl {
                 return Err(Error::new_spanned(&self.ast, "Unions not supported"))
             }
         };
+
+        let field_types = match &self.ast.data {
+            Data::Struct(ref s) => self.generate_composite_field_types(s, &scale_info)?,
+            Data::Enum(ref e) => self.generate_variant_field_types(e, &scale_info)?,
+            Data::Union(_) => {
+                return Err(Error::new_spanned(&self.ast, "Unions not supported"))
+            }
+        };
+
         let docs = self.generate_docs(&self.ast.attrs);
 
         Ok(quote! {
             impl #impl_generics #scale_info::TypeInfo for #ident #ty_generics #where_clause {
                 type Identity = Self;
                 fn type_info() -> #scale_info::Type {
-                    #scale_info::Type::builder()
+                    # (# field_types ) *
+                    return #scale_info::Type::builder()
                         .path(#scale_info::Path::new(::core::stringify!(#ident), ::core::module_path!()))
                         .type_params(#scale_info::prelude::vec![ #( #type_params ),* ])
                         #docs
@@ -154,6 +164,60 @@ impl TypeInfoImpl {
         quote! {
             composite(#scale_info::build::Fields::#fields)
         }
+    }
+
+    fn generate_composite_field_types(&self, data_struct: &DataStruct, scale_info: &syn::Path) -> Result<Vec<TokenStream2>> {
+        match data_struct.fields {
+            Fields::Named(ref fs) => {
+                Ok(self.generate_types(&fs.named, scale_info))
+            }
+            Fields::Unnamed(ref fs) => {
+                Err(Error::new_spanned(&self.ast, "Unnamed struct not supported"))
+            }
+            Fields::Unit => {
+                Err(Error::new_spanned(&self.ast, "Unit struct not supported"))
+            }
+        }
+    }
+
+    fn generate_types(&self, fields: &Punctuated<Field, Comma>, scale_info: &syn::Path) -> Vec<TokenStream2> {
+        let fields_type = fields
+            .iter()
+            .filter(|f| {
+                let ty = &f.ty;
+                !utils::should_skip(&f.attrs)
+            })
+            .map(|f| {
+                let ty = &f.ty;
+                match ty {
+                    syn::Type::Path(type_path) => {
+                        let path_seg = type_path.path.segments.last().unwrap();
+                        let name = path_seg.ident.to_string();
+                        if name == "Option" {
+                            if let syn::PathArguments::AngleBracketed(x) = &type_path.path.segments.last().unwrap().arguments {
+                                if let syn::GenericArgument::Type(ty) = &x.args.last().unwrap() {
+                                    return quote!{#scale_info::add_scale_type(#ty::type_info());};
+                                } else {
+                                    return quote!{};
+                                }
+                            } else {
+                                return quote!{};
+                            }
+                        } else {
+                            return quote!{#scale_info::add_scale_type(#ty::type_info());};
+                        }
+                    }
+                    syn::Type::Array(a) => {
+                        let elem_type = &*a.elem;
+                        return quote!{#scale_info::add_scale_type(#elem_type::type_info());};
+                    }
+                    _ => {
+                        return quote!{}
+                    }
+                }
+            })
+            .collect::<Vec<_>>();
+        return fields_type;
     }
 
     fn generate_fields(&self, fields: &Punctuated<Field, Comma>) -> Vec<TokenStream2> {
@@ -256,6 +320,38 @@ impl TypeInfoImpl {
                     #( #variants )*
             )
         }
+    }
+
+    fn generate_variant_field_types(
+        &self,
+        data_enum: &DataEnum,
+        scale_info: &syn::Path,
+    ) -> Result<Vec<TokenStream2>> {
+        let variants = &data_enum.variants;
+
+        let mut variant_types: Vec<TokenStream2> = Vec::new();
+        for v in variants {
+            match v.fields {
+                Fields::Named(ref fs) => {
+                    if fs.named.len() != 1 {
+                        return Err(Error::new_spanned(v, "variant has more than one type is not supported by ABI"));
+                    }
+                    let ty = &fs.named.first().unwrap().ty;
+                    variant_types.push(quote!{#scale_info::add_scale_type(#ty::type_info());});
+                }
+                Fields::Unnamed(ref fs) => {
+                    if fs.unnamed.len() != 1 {
+                        return Err(Error::new_spanned(v, "variant has more than one type is not supported by ABI"));
+                    }
+                    let ty = &fs.unnamed.first().unwrap().ty;
+                    variant_types.push(quote!{#scale_info::add_scale_type(#ty::type_info());});
+                }
+                Fields::Unit => {
+                    // return Err(Error::new_spanned(v, "unit variant is not supported by ABI"));
+                }
+            }
+        }
+        return Ok(variant_types);
     }
 
     fn generate_docs(&self, attrs: &[syn::Attribute]) -> Option<TokenStream2> {
