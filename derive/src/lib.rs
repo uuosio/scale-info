@@ -193,7 +193,7 @@ impl TypeInfoImpl {
                     syn::Type::Path(type_path) => {
                         let path_seg = type_path.path.segments.last().unwrap();
                         let name = path_seg.ident.to_string();
-                        if name == "Option" {
+                        if name == "Option" || name == "Vec" {
                             if let syn::PathArguments::AngleBracketed(x) = &type_path.path.segments.last().unwrap().arguments {
                                 if let syn::GenericArgument::Type(ty) = &x.args.last().unwrap() {
                                     return quote!{#scale_info::add_scale_type(#ty::type_info());};
