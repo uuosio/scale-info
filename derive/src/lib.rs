@@ -430,5 +430,4 @@ fn clean_type_string(input: &str) -> String {
         .replace("< ", "<")
         .replace(" >", ">")
         .replace("& \'", "&'")
-        .replace("&\'", "&'")
 }
