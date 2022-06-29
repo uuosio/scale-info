@@ -1,6 +1,6 @@
 [package]
 name = "eosio-scale-info-derive"
-version = "2.1.2"
+version = "2.1.3"
 authors = [
     "Parity Technologies <admin@parity.io>",
     "Centrality Developers <support@centrality.ai>",
