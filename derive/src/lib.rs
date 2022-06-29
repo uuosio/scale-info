@@ -171,7 +171,7 @@ impl TypeInfoImpl {
             Fields::Named(ref fs) => {
                 Ok(self.generate_types(&fs.named, scale_info))
             }
-            Fields::Unnamed(ref fs) => {
+            Fields::Unnamed(ref _fs) => {
                 Err(Error::new_spanned(&self.ast, "Unnamed struct not supported"))
             }
             Fields::Unit => {
@@ -184,7 +184,6 @@ impl TypeInfoImpl {
         let fields_type = fields
             .iter()
             .filter(|f| {
-                let ty = &f.ty;
                 !utils::should_skip(&f.attrs)
             })
             .map(|f| {
@@ -193,7 +192,7 @@ impl TypeInfoImpl {
                     syn::Type::Path(type_path) => {
                         let path_seg = type_path.path.segments.last().unwrap();
                         let name = path_seg.ident.to_string();
-                        if name == "Option" || name == "Vec" {
+                        if name == "Option" || name == "Vec" || name == "BinaryExtension" {
                             if let syn::PathArguments::AngleBracketed(x) = &type_path.path.segments.last().unwrap().arguments {
                                 if let syn::GenericArgument::Type(ty) = &x.args.last().unwrap() {
                                     return quote!{#scale_info::add_scale_type(#ty::type_info());};
